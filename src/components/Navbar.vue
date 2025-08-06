@@ -6,10 +6,10 @@ import { ref } from 'vue'
   <header class="bg-white shadow sticky top-0 z-50">
       <nav class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center ">
         <h1 class="text-2xl font-bold text-blue-600">SIWES Tracker</h1>
-        <div class="hidden md:flex space-x-6">
+        <div class="hidden md:flex items-center space-x-6">
           <a href="#about" class="hover:text-blue-600">About</a>
           <a href="#features" class="hover:text-blue-600">Features</a>
-          <a href="#howItWork" class="hover:text-blue-600">HowItWork</a>
+          <a href="#howItWork" class="hover:text-blue-600">FAQ</a>
           <a href="#testimonials" class="hover:text-blue-600">Testimonials</a>
           <a href="#contact" class="hover:text-blue-600">Contact</a>
           <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Login</button>
