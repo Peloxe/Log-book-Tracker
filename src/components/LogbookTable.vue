@@ -1,56 +1,29 @@
 <template>
-  <div class="overflow-x-auto mt-6">
-    <h2 class="text-lg font-semibold mb-2">Logbook Entries</h2>
-
-    <table class="w-full table-auto border border-gray-300 text-sm">
+  <div>
+    <table class="w-full table-auto border">
       <thead class="bg-gray-100">
         <tr>
-          <th class="px-4 py-2 border">Date</th>
-          <th class="px-4 py-2 border">Activity</th>
-          <th class="px-4 py-2 border">Status</th>
-          <th class="px-4 py-2 border">Actions</th>
+          <th class="p-2 border">Date</th>
+          <th class="p-2 border">Activity</th>
+          <th class="p-2 border">Hours</th>
+          <th class="p-2 border">Status</th>
+          <th class="p-2 border">Actions</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-if="logs.length === 0">
-          <td colspan="4" class="text-center py-4">No log entries yet.</td>
+        <tr v-if="store.entries.length === 0">
+          <td colspan="5" class="p-4 text-center text-slate-500">No entries yet.</td>
         </tr>
-        <tr v-for="log in logs" :key="log.id" class="hover:bg-gray-50">
-          <td class="px-4 py-2 border">{{ log.date }}</td>
-          <td class="px-4 py-2 border">{{ truncate(log.activities) }}</td>
-          <td class="px-4 py-2 border">
-            <span
-              :class="[
-                'px-2 py-1 rounded text-xs',
-                log.status === 'Pending' ? 'bg-yellow-100 text-yellow-700' :
-                log.status === 'Approved' ? 'bg-green-100 text-green-700' :
-                'bg-red-100 text-red-700'
-              ]"
-            >
-              {{ log.status }}
-            </span>
+        <tr v-for="entry in store.entries" :key="entry.id" class="hover:bg-gray-50">
+          <td class="p-2 border">{{ entry.date }}</td>
+          <td class="p-2 border">{{ entry.activities }}</td>
+          <td class="p-2 border text-center">{{ entry.hours }}</td>
+          <td class="p-2 border text-center">
+            <span :class="statusClass(entry.status)">{{ entry.status }}</span>
           </td>
-          <td class="px-4 py-2 border flex flex-wrap gap-2">
-            <button
-              class="bg-blue-500 text-white px-2 py-1 rounded text-xs hover:bg-blue-600"
-              @click="$emit('view', log)"
-            >
-              View
-            </button>
-            <button
-              class="bg-yellow-500 text-white px-2 py-1 rounded text-xs hover:bg-yellow-600"
-              v-if="log.status === 'Pending'"
-              @click="$emit('edit', log)"
-            >
-              Edit
-            </button>
-            <button
-              class="bg-red-500 text-white px-2 py-1 rounded text-xs hover:bg-red-600"
-              v-if="log.status === 'Pending'"
-              @click="$emit('delete', log.id)"
-            >
-              Delete
-            </button>
+          <td class="p-2 border text-right space-x-2">
+            <button v-if="entry.status !== 'approved'" @click="edit(entry)" class="px-3 py-1 bg-yellow-500 text-white rounded">Edit</button>
+            <button @click="del(entry.id)" class="px-3 py-1 bg-red-500 text-white rounded">Delete</button>
           </td>
         </tr>
       </tbody>
@@ -59,14 +32,32 @@
 </template>
 
 <script setup>
-const props = defineProps({
-  logs: {
-    type: Array,
-    default: () => []
-  }
-})
+import { useLogbookStore } from '../store/logbookStore'
+import { useRouter } from 'vue-router'
 
-function truncate(text, max = 60) {
-  return text.length > max ? text.slice(0, max) + '...' : text
+const store = useLogbookStore()
+const router = useRouter()
+
+function edit(entry) {
+  // route to AddLog with editId query param
+  router.push({ path: '/add-log', query: { editId: entry.id } })
+}
+
+function del(id) {
+  if (confirm('Delete this entry?')) store.deleteEntry(id)
+}
+
+function approve(id) {
+  store.setStatus(id, 'approved')
+}
+
+function reject(id) {
+  const reason = prompt('Optional rejection note:')
+  // store rejection reason field if you want; here just set status
+  store.setStatus(id, 'rejected')
+}
+
+function statusClass(s) {
+  return s === 'approved' ? 'text-green-700 font-semibold' : s === 'rejected' ? 'text-red-700 font-semibold' : 'text-yellow-700 font-semibold'
 }
 </script>
