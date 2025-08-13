@@ -4,7 +4,7 @@
       <thead class="bg-gray-100">
         <tr>
           <th class="p-2 border">Date</th>
-          <th class="p-2 border">Activity</th>
+          <th class="p-2 border hidden lg:block">Activity</th>
           <th class="p-2 border">Hours</th>
           <th class="p-2 border">Status</th>
           <th class="p-2 border">Actions</th>
@@ -16,7 +16,7 @@
         </tr>
         <tr v-for="entry in store.entries" :key="entry.id" class="hover:bg-gray-50">
           <td class="p-2 border">{{ entry.date }}</td>
-          <td class="p-2 border">{{ entry.activities }}</td>
+          <td class="p-2 border hidden lg:block">{{ entry.activities }}</td>
           <td class="p-2 border text-center">{{ entry.hours }}</td>
           <td class="p-2 border text-center">
             <span :class="statusClass(entry.status)">{{ entry.status }}</span>

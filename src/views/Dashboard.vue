@@ -1,7 +1,7 @@
 <template>
   <div class="space-y-6">
     <!-- Profile header -->
-    <div class="bg-white rounded-lg shadow p-4 flex items-center justify-between">
+    <div class="bg-white rounded-xl shadow py-2 px-1 lg:p-4 flex gap-2 items-center justify-between">
       <div class="flex items-center gap-4">
         <div class="w-14 h-14 rounded-full bg-slate-200 flex items-center justify-center text-xl font-bold">
           {{ initials }}
@@ -13,9 +13,9 @@
         </div>
       </div>
 
-      <div class="flex items-center gap-3">
-        <router-link to="/add-log" class="bg-blue-500 px-4 py-2 rounded text-white">+ Add New Log Entry</router-link>
-        <button @click="exportPdfAll" class="bg-orange-500 px-4 py-2 rounded text-white">Export PDF</button>
+      <div class="flex flex-col lg:flex-row items-center gap-1 lg:gap-3">
+        <router-link to="/add-log" class="bg-blue-500 px-4 py-2 text-sm md:text-base rounded text-white">+ Add <span class="hidden lg:inline">New</span> Log <span class="hidden lg:inline">Entry</span></router-link>
+        <button @click="exportPdfAll" class="bg-orange-500 px-4 py-2 text-sm md:text-base rounded text-white">Export PDF</button>
       </div>
     </div>
 

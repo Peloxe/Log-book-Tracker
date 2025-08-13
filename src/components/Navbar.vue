@@ -1,52 +1,95 @@
-<script setup>
-// import logo from '@/assets/logo.svg'
-</script>
-
 <template>
-    <nav class="bg-green-700 border-b border-green-500">
-      <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
-        <div class="flex h-20 items-center justify-between">
-          <div
-            class="flex flex-1 items-center justify-center md:items-stretch md:justify-start"
-          >
-            <!-- Logo -->
-            <a class="flex flex-shrink-0 items-center mr-4" href="">
-              <img class="h-10 w-auto" :src="logo" alt=" " />
-              <span class="hidden md:block text-white text-2xl font-bold ml-2"
-                >SIWES Logbook Tracker</span
-              >
-            </a>
-            <div class="md:ml-auto">
-              <div class="flex space-x-2">
-                <a
-                  href=""
-                  class="text-white bg-green-900 hover:bg-gray-900 hover:text-white rounded-md px-3 py-2"
-                  >Profile</a
-                >
-                <a
-                  href=""
-                  class="text-white hover:bg-green-900 hover:text-white rounded-md px-3 py-2"
-                  >My Dashboard</a
-                >
-                <a
-                  href=""
-                  class="text-white hover:bg-green-900 hover:text-white rounded-md px-3 py-2"
-                  >Search</a
-                >
-                <a
-                  href=""
-                  class="text-white hover:bg-green-900 hover:text-white rounded-md px-3 py-2"
-                  >Add Job</a
-                >
-                <a
-                  href=""
-                  class="text-white hover:bg-green-900 hover:text-white rounded-md px-3 py-2"
-                  >Login</a
-                >
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </nav>
+  <nav
+    ref="menuRef"
+    class="flex px-4 py-2 justify-between border-b border-gray items-center sticky top-0 z-4 bg-white"
+  >
+    <h1 class="font-bold flex flex-col items-center text-2xl text-blue-600 mt-1.5">
+      SIWES Tracker
+    </h1>
+
+    <div
+      :class="[
+        'nav-links flex  px-2.5 py-2 rounded-3xl text-gray-600 items-center gap-8',
+        isMenuVisible ? 'show' : ''
+      ]"
+    >
+      <!-- <a href="#" @click="closeMenu" class="text-medium bg-white px-4 py-1 rounded-3xl font-bold text-black">Home</a>
+      <a href="#about" @click="closeMenu">About Us</a>
+      <a href="#products" @click="closeMenu">Listings</a>
+      <a href="#testimonial" @click="closeMenu">Testimonial</a> -->
+      <a
+        href="#contact"
+        @click="closeMenu"
+        class="font-semibold px-4 py-2 rounded-xl text-black bg-blue-600 text-white lg:hidden"
+      >
+        Profile
+      </a>
+      <a
+        href="#contact"
+        @click="closeMenu"
+        class="font-semibold px-4 py-2 rounded-xl text-black bg-red-600 text-white lg:hidden"
+      >
+        Logout
+      </a>
+    </div>
+  <div class="flex gap-2">
+
+    <a
+    href="#contact"
+    class="font-semibold px-4 py-2 rounded-lg text-black bg-blue-600 text-white hidden lg:block"
+    >
+    Profile
+  </a>
+    <a
+    href="#contact"
+    class="font-semibold px-4 py-2 rounded-lg bg-red-600 text-white hidden lg:block"
+    >
+    Logout
+    </a>
+    
+  </div>
+
+    <!-- Checkbox Component -->
+    <Checkbox :setIsMenuVisible="setIsMenuVisible" :checkboxRef="checkboxRef" />
+  </nav>
 </template>
+
+<script setup>
+import { ref, onMounted, onBeforeUnmount } from "vue";
+import Checkbox from "./Checkbox.vue";
+
+const isMenuVisible = ref(false);
+const menuRef = ref(null);
+const checkboxRef = ref(null);
+
+function closeMenu() {
+  isMenuVisible.value = false;
+
+  // Ensure the checkbox is clicked only if menu is open
+  if (checkboxRef.value && checkboxRef.value.checked) {
+    checkboxRef.value.click();
+  }
+}
+
+function setIsMenuVisible(value) {
+  isMenuVisible.value = value;
+}
+
+function handleClickOutside(event) {
+  if (
+    isMenuVisible.value &&
+    menuRef.value &&
+    !menuRef.value.contains(event.target)
+  ) {
+    closeMenu();
+  }
+}
+
+onMounted(() => {
+  document.addEventListener("mousedown", handleClickOutside);
+});
+
+onBeforeUnmount(() => {
+  document.removeEventListener("mousedown", handleClickOutside);
+});
+</script>
