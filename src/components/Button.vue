@@ -144,7 +144,7 @@
 <template>
   <div class="menu">
     <div class="item">
-      <a href="#" class="link">
+      <a href="#/login" class="link">
         <span> Get Started </span>
         <svg viewBox="0 0 360 360" xml:space="preserve">
           <g id="SVGRepo_iconCarrier">
