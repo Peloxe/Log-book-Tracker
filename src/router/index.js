@@ -1,16 +1,19 @@
-// import { createRouter, createWebHistory } from 'vue-router';
-// import LoginPage from '@/components/auth/LoginForm.vue';
-// import RegisterPage from '@/pages/RegisterPage.vue';
-// import ProfilePage from '@/pages/ProfilePage.vue';
+import { createRouter, createWebHistory } from 'vue-router';
+
+import LandingPage from '@/pages/LandingPage.vue';
+import LoginPage from '@/pages/LoginPage.vue';
+import ProfilePage from '@/pages/ProfileSetup.vue';
+import SignupPage from '@/pages/SignupPage.vue';
 
 const routes = [
+  { path: '/', component: LandingPage },
   { path: '/login', component: LoginPage },
-  { path: '/register', component: RegisterPage },
+  { path: '/signup', component: SignupPage },
   { path: '/profile', component: ProfilePage },
 ];
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHistory(import.meta.env.BASE_URL),
   routes,
 });
 
