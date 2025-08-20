@@ -7,8 +7,8 @@
           {{ initials }}
         </div>
         <div>
-          <div class="text-sm text-slate-500">Institution</div>
           <div class="font-semibold text-lg">{{ profile.name }}</div>
+          <div class="text-sm text-slate-500">Institution</div>
           <div class="text-sm text-slate-500">Matric: {{ profile.matric }}</div>
         </div>
       </div>
