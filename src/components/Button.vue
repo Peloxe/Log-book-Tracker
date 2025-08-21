@@ -144,7 +144,7 @@
 <template>
   <div class="menu">
     <div class="item">
-      <a href="#/login" class="link">
+      <a href="#/signup" class="link">
         <span> Get Started </span>
         <svg viewBox="0 0 360 360" xml:space="preserve">
           <g id="SVGRepo_iconCarrier">
@@ -157,15 +157,21 @@
       </a>
       <div class="submenu">
         <div class="submenu-item">
-          <a href="#" class="submenu-link"> As Student </a>
+          <router-link to="/signup/student" class="submenu-link"> As Student </router-link>
         </div>
         <div class="submenu-item">
-          <a href="#" class="submenu-link"> As Supervisor </a>
+          <router-link to="/signup/supervisor" class="submenu-link"> As Supervisor </router-link>
         </div>
         <div class="submenu-item">
-          <a href="#" class="submenu-link"> As Admin </a>
+          <router-link to="/signup/admin" class="submenu-link"> As Admin </router-link>
         </div>
       </div>
     </div>
   </div>
 </template>
+
+<script setup>
+import { RouterLink } from 'vue-router';
+
+</script>
+

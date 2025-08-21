@@ -1,89 +1,110 @@
 <script setup>
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+import { useAuthStore } from '@/stores/auth';
+import api from '@/utils/axios'; // Adjust the import path as necessary
 
 
-const name = ref('');
-const email = ref('');
-const phone = ref('');
-const role = ref('');
-const department = ref('');
-const profilePicture = ref(null);
-const preview = ref(null);
-const loading = ref(false);
-const error = ref('');
-const success = ref('');
+const auth = useAuthStore();
+const router = useRouter();
 
-const saveProfile = () => {
-  loading.value = true;
-  error.value = '';
-  success.value = '';
+const fullName = ref('')
+const role = ref('')
+const institution = ref('')
+const avatar = ref(null)
+const preview = ref('')
+const submitting = ref(false)
+const message = ref('')
 
-  // Simulate API call
-  setTimeout(() => {
-    loading.value = false;
-    success.value = 'Profile updated successfully!';
-  }, 2000);
-};
-
-const resetForm = () => {
-  name.value = '';
-  email.value = '';
-  phone.value = '';
-  role.value = '';
-  department.value = '';
-  profilePicture.value = null;
-  preview.value = null;
-};
-const onFileChange = (event) => {
-  const file = event.target.files[0];
+function onFileChange(e) {
+  const file = e.target.files?.[0]
   if (file) {
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      preview.value = e.target.result;
-    };
-    reader.readAsDataURL(file);
-    profilePicture.value = file;
+    avatar.value = file
+    preview.value = URL.createObjectURL(file)
   }
-};
+}
+
+async function handleProfileSetup() {
+  submitting.value = true
+  message.value = ''
+  try {
+    await api.saveProfile({
+      name: fullName.value,
+      role: role.value,
+      institution: institution.value,
+      avatar: avatar.value
+    })
+
+
+
+    await auth.fetchUser(); // refresh store user data
+    router.push(auth.user?.role === "student" ? "/student" : "/supervisor" || "/admin");
+
+
+    // Optionally upload the avatar if it exists
+    if (avatar.value) {
+      const formData = new FormData()
+      formData.append('file', avatar.value)
+      await api.uploadAvatar(formData)
+    }
+    // Redirect to the dashboard or home page after setup
+    router.push('/dashboard')
+
+    //     router.push(
+    //   auth.role === "student"
+    //     ? "/student"
+    //     : auth.role === "supervisor"
+    //     ? "/supervisor"
+    //     : auth.role === "admin"
+    //     ? "/admin"
+    //     : "/"
+    // );
+
+
+    // Show success message
+    preview.value = ''
+    message.value = 'Profile saved!'
+  } catch (e) {
+    message.value = auth.error || 'Could not save profile'
+  } finally {
+    submitting.value = false
+  }
+}
 </script>
 
 
 <template>
-  <div>
-    <div class="max-w-lg mx-auto bg-white p-6 rounded shadow mt-10">
-      <h2 class="text-2xl font-bold mb-4 text-center">Complete Your Profile</h2>
-      <form @submit.prevent="saveProfile" class="space-y-4">
-        <input v-model="name" type="text" placeholder="Full Name" class="w-full p-3 border rounded" required />
-        
-        <input v-model="email" type="email" placeholder="Email" class="w-full p-3 border rounded" required />
-        <input v-model="phone" type="tel" placeholder="Phone Number" class="w-full p-3 border rounded" required />
-        <select v-model="role" class="w-full p-3 border rounded" required>
-          <option disabled value="">Select Role</option>
-          <option value="student">Student</option>
-          <option value="supervisor">Supervisor</option>
-          <option value="admin">Admin</option>
-        </select>
-        <input v-model="department" type="text" placeholder="Department" class="w-full p-3 border rounded" required />
+  <div class="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
+    <div class="w-full max-w-lg bg-white dark:bg-gray-800 rounded-2xl shadow p-6">
+      <h1 class="text-2xl font-bold text-center text-gray-900 dark:text-white">Complete Your Profile</h1>
+      <form @submit.prevent="handleProfileSetup" class="mt-6 space-y-4">
         <div>
-          <label class="block mb-1 font-semibold">Profile Picture</label>
-          <input type="file" @change="onFileChange" />
-          <div v-if="preview" class="mt-2">
-            <img :src="preview" class="w-20 h-20 rounded-full object-cover" />
-          </div>
+          <label for="name" class="block text-sm mb-1 text-gray-700 dark:text-gray-300">Full Name</label>
+          <input id="name" v-model.trim="fullName" type="text" required class="w-full px-3 py-2 border rounded-lg">
         </div>
-        <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700" :disabled="loading">
-          {{ loading ? 'Saving...' : 'Save Profile' }}
+        <div>
+          <label for="role" class="block text-sm mb-1 text-gray-700 dark:text-gray-300">Role</label>
+          <select id="role" v-model="role" required class="w-full px-3 py-2 border rounded-lg">
+            <option value="" disabled>Select Role</option>
+            <option value="Student">Student</option>
+            <option value="Supervisor">Supervisor</option>
+            <option value="Admin">Admin</option>
+          </select>
+        </div>
+        <div>
+          <label for="inst" class="block text-sm mb-1 text-gray-700 dark:text-gray-300">Institution</label>
+          <input id="inst" v-model.trim="institution" type="text" required class="w-full px-3 py-2 border rounded-lg">
+        </div>
+        <div>
+          <label class="block text-sm mb-1 text-gray-700 dark:text-gray-300">Profile Picture</label>
+          <input type="file" accept="image/*" @change="onFileChange">
+          <img v-if="preview" :src="preview" class="mt-2 w-24 h-24 rounded-full object-cover border">
+        </div>
+        <button :disabled="submitting"
+          class="w-full py-2 rounded-lg bg-indigo-600 text-white hover:bg-indigo-700 disabled:opacity-60">
+          <span v-if="submitting">Saving...</span><span v-else>Save Profile</span>
         </button>
-        <button type="button" @click="resetForm"
-          class="w-full bg-gray-300 text-gray-700 py-2 rounded hover:bg-gray-400">
-          Reset
-        </button>
-
-        <p v-if="error" class="text-red-500 text-sm mt-2">{{ error }}</p>
-        <p v-if="success" class="text-green-500 text-sm mt-2">{{ success }}</p>
-        <p v-if="loading" class="text-blue-500 text-sm mt-2">Loading...</p>
-        <p v-if="!error && !success && !loading" class="text-gray-500 text-sm mt-2">Fill out the form to update your
-          profile.</p>
+        <p v-if="message" class="text-center text-green-600 text-sm">{{ message }}</p>
       </form>
     </div>
   </div>
