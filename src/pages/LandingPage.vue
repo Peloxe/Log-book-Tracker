@@ -110,7 +110,7 @@ html {
             <a href="#contact" class="text-white hover:text-blue-600">Contact</a>
           </li>
           <li>
-            <RouterLink to="/signup/student" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Sign Up
+            <RouterLink to="/login" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Login
             </RouterLink>
           </li>
         </ul>
@@ -131,7 +131,7 @@ html {
           <li><a href="#testimonials" @click="toggleMenu">Testimonials</a></li>
           <li><a href="#contact" @click="toggleMenu">Contact</a></li>
           <li>
-            <RouterLink to="/signup/student" @click="toggleMenu">Sign</RouterLink>
+            <RouterLink to="/login" @click="toggleMenu">Login</RouterLink>
           </li>
         </ul>
       </div>
