@@ -34,12 +34,12 @@
     </div>
   <div class="flex gap-2">
 
-    <a
-    href="#contact"
+    <RouterLink
+    to="/ProfileCard"
     class="font-semibold px-4 py-2 rounded-lg text-black bg-blue-600 text-white hidden lg:block"
     >
-    Profile
-  </a>
+      Profile
+    </RouterLink>
     <a
     href="#contact"
     class="font-semibold px-4 py-2 rounded-lg bg-red-600 text-white hidden lg:block"

@@ -55,8 +55,8 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
-import LogbookTable from '../components/LogbookTable.vue'
-import { useLogbookStore } from '../store/logbookStore'
+import LogbookTable from '@/components/LogbookTable.vue'
+import { useLogbookStore } from '@/store/logbookStore'  
 import html2canvas from 'html2canvas'
 import jsPDF from 'jspdf'
 
