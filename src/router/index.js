@@ -7,6 +7,9 @@ import SignupPage from '@/pages/SignupPage.vue';
 import VerificationForm from '@/components/VerificationForm.vue';
 import LoginPage from '@/pages/LoginPage.vue';
 import ProfilePage from '@/pages/ProfileSetup.vue';
+import StudentProfile from '@/pages/StudentProfile.vue';
+import SupervisorProfilePage from '@/pages/SupervisorProfilePage.vue';
+import AdminProfilePage from '@/pages/AdminProfilePage.vue';
 
 
 
@@ -15,6 +18,10 @@ const routes = [
   { path: '/verify', component: VerificationForm },
   { path: '/login', component: LoginPage },
   { path: '/profile', component: ProfilePage },
+  { path: '/student', component: StudentProfile },
+  { path: '/supervisor', component: SupervisorProfilePage },
+  { path: '/admin', component: AdminProfilePage },
+  
   {
   path: '/signup/:role(student|supervisor|admin)',
   name: 'RoleForm',
