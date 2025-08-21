@@ -108,24 +108,100 @@
   }
 </style>
 
+<script setup>
+import { ref } from "vue";
+import { useAuthStore } from "@/stores/auth";
+
+const auth = useAuthStore();
+
+const otp = ref(["", "", "", "", "", ""]); // 6-digit OTP
+const submitting = ref(false);
+const error = ref("");
+
+/**
+ * Automatically move focus to next field when typing
+ */
+function handleInput(e, index) {
+  const value = e.target.value;
+  if (/^\d$/.test(value)) {
+    otp.value[index] = value;
+
+    // Move to next input if exists
+    const next = document.getElementById(`otp-input${index + 2}`);
+    if (next) next.focus();
+  } else {
+    otp.value[index] = "";
+  }
+}
+
+/**
+ * Handle backspace to move focus back
+ */
+function handleBackspace(e, index) {
+  if (e.key === "Backspace" && !otp.value[index] && index > 0) {
+    const prev = document.getElementById(`otp-input${index}`);
+    if (prev) prev.focus();
+  }
+}
+
+/**
+ * Submit OTP
+ */
+async function handleSubmit(e) {
+  e.preventDefault();
+  submitting.value = true;
+  error.value = "";
+
+  try {
+    const code = otp.value.join(""); // Combine into full string
+    await auth.verifyAccount(code);  // 🔑 let auth store decide navigation
+
+    // If store sets error, show it
+    if (auth.error) {
+      error.value = auth.error;
+    }
+  } catch (err) {
+    error.value = err.response?.data?.message || "Invalid code. Try again.";
+  } finally {
+    submitting.value = false;
+  }
+}
+</script>
+
 <template>
   <div class="flex justify-center items-center h-screen w-full bg-[#f9fafb]">
-  <form class="otp-Form">
+    <form class="otp-Form" @submit="handleSubmit">
+      <span class="mainHeading">Enter OTP</span>
+      <p class="otpSubheading">
+        We have sent a verification code to {{ auth.pendingEmail }}
+      </p>
 
-    <span class="mainHeading">Enter OTP</span>
-    <p class="otpSubheading">We have sent a verification code to your mobile text</p>
-    <div class="inputContainer">
-     <input  maxlength="1" type="text" class="otp-input" id="otp-input1">
-     <input  maxlength="1" type="text" class="otp-input" id="otp-input2">
-     <input  maxlength="1" type="text" class="otp-input" id="otp-input3">
-     <input  maxlength="1" type="text" class="otp-input" id="otp-input4"> 
-     <input  maxlength="1" type="text" class="otp-input" id="otp-input5"> 
-     <input  maxlength="1" type="text" class="otp-input" id="otp-input6"> 
+      <div class="inputContainer">
+        <input
+          v-for="(digit, index) in otp"
+          :key="index"
+          v-model="otp[index]"
+          maxlength="1"
+          type="text"
+          class="otp-input"
+          :id="`otp-input${index+1}`"
+          @input="handleInput($event, index)"
+          @keydown="handleBackspace($event, index)"
+        />
+      </div>
 
-    </div>
-     <button class="verifyButton" type="submit">Verify</button>
-       <p class="resendNote">Didn't receive the code? <button class="resendBtn">Resend Code</button></p>
+      <button class="verifyButton" type="submit" :disabled="submitting">
+        {{ submitting ? "Verifying..." : "Verify" }}
+      </button>
 
-  </form>
+      <p v-if="error" class="text-red-500 text-sm mt-2">{{ error }}</p>
+
+      <p class="resendNote">
+        Didn't receive the code?
+        <button type="button" class="resendBtn" @click="">
+          Resend Code
+        </button>
+      </p>
+    </form>
   </div>
 </template>

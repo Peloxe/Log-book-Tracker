@@ -1,10 +1,11 @@
 <script setup>
-import { ref, onMounted, computed } from 'vue'
+import { ref, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import axios from 'axios'
+import { useAuthStore } from '@/stores/auth'   // <-- import Pinia store
 
 const route = useRoute()
 const router = useRouter()
+const auth = useAuthStore()   // <-- use store
 
 // Form fields
 const full_name = ref('')
@@ -39,14 +40,14 @@ const isValid = computed(() =>
   !emailError.value && !passwordError.value && !confirmError.value
 )
 
-// Submit handler using Axios
+// Submit handler using AuthStore
 async function handleSignup() {
   if (!isValid.value) return
   submitting.value = true
   formError.value = ''
 
   try {
-    const response = await axios.post('http://192.168.1.220:8000/api/v1/users/register/', {
+    await auth.signup({
       full_name: full_name.value,
       username: username.value,
       email: email.value,
@@ -54,12 +55,8 @@ async function handleSignup() {
       role: role.value,
     })
 
-    // If signup is successful, redirect
-    if (response.status === 200 || response.status === 201) {
-      router.push('/verify')
-    } else {
-      formError.value = 'Signup failed. Please try again.'
-    }
+    // redirect to verify page
+    router.push('/verify')
   } catch (error) {
     formError.value = error.response?.data?.message || 'Registration failed'
     console.error('Signup error:', error)
