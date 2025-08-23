@@ -1,52 +1,13 @@
-<script setup>
-// import logo from '@/assets/logo.svg'
-</script>
-
 <template>
-    <nav class="bg-green-700 border-b border-green-500">
-      <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
-        <div class="flex h-20 items-center justify-between">
-          <div
-            class="flex flex-1 items-center justify-center md:items-stretch md:justify-start"
-          >
-            <!-- Logo -->
-            <a class="flex flex-shrink-0 items-center mr-4" href="">
-              <img class="h-10 w-auto" :src="logo" alt=" " />
-              <span class="hidden md:block text-white text-2xl font-bold ml-2"
-                >SIWES Logbook Tracker</span
-              >
-            </a>
-            <div class="md:ml-auto">
-              <div class="flex space-x-2">
-                <a
-                  href=""
-                  class="text-white bg-green-900 hover:bg-gray-900 hover:text-white rounded-md px-3 py-2"
-                  >Profile</a
-                >
-                <a
-                  href=""
-                  class="text-white hover:bg-green-900 hover:text-white rounded-md px-3 py-2"
-                  >My Dashboard</a
-                >
-                <a
-                  href=""
-                  class="text-white hover:bg-green-900 hover:text-white rounded-md px-3 py-2"
-                  >Search</a
-                >
-                <a
-                  href=""
-                  class="text-white hover:bg-green-900 hover:text-white rounded-md px-3 py-2"
-                  >Add Job</a
-                >
-                <a
-                  href=""
-                  class="text-white hover:bg-green-900 hover:text-white rounded-md px-3 py-2"
-                  >Login</a
-                >
-              </div>
-            </div>
-          </div>
-        </div>
+  <nav class="bg-blue-800 shadow-md w-full fixed top-0 left-0 z-50">
+    <div class="max-w-7xl mx-auto px-6 py-3 flex justify-between items-center">
+      <div class="text-white text-2xl font-bold">SUPERVISOR'S DASHBOARD</div>
+      <div class="space-x-6">
+        <router-link to="/" class="text-white hover:text-blue-200 font-medium transition">Home</router-link>
+        <router-link to="/assign" class="text-white hover:text-blue-200 font-medium transition">Assign</router-link>
+        <router-link to="/profile" class="text-white hover:text-blue-200 font-medium transition">Profile</router-link>
       </div>
-    </nav>
+    </div>
+  </nav>
+  <div class="h-16"></div> <!-- Spacer for fixed navbar -->
 </template>
