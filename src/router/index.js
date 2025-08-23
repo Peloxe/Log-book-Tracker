@@ -1,7 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Dashboard from '@/pages/Dashboard.vue';
-import LogReview from '@/pages/LogReview.vue';
 import Profile from '@/pages/Profile.vue';
+import LogTable from '@/components/LogTable.vue';
+import LogReview from '@/pages/LogReview.vue';
 import Assign from '@/pages/Assign.vue';
 
 const routes = [
@@ -11,15 +12,21 @@ const routes = [
     component: Dashboard, // this will load when user visits "/"
   },
   {
+    path: '/profile',
+    name: 'Profile',
+    component: Profile
+  },
+  {
+    path: '/logs/:studentId',
+    name: 'LogTable',
+    component: LogTable,
+    props: true
+  },
+  {
     path: '/log-review/:studentId',
     name: 'LogReview',
     component: LogReview,
     props: true
-  },
-  {
-    path: '/profile',
-    name: 'Profile',
-    component: Profile
   },
   {
     path: '/assign',

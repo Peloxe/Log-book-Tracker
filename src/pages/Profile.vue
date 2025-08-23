@@ -1,23 +1,24 @@
-
 <template>
-  <div class="bg-white shadow-md rounded-lg border border-gray-200 p-6 md:sticky md:top-20">
-    <h2 class="text-xl font-semibold mb-4 text-gray-800">Supervisor Profile</h2>
-    <div class="space-y-2 text-gray-700">
-      <p><span class="font-medium">Name:</span> {{ supervisor.name }}</p>
-      <p><span class="font-medium">Department:</span> {{ supervisor.department }}</p>
-      <p><span class="font-medium">University:</span> {{ supervisor.university }}</p>
+  <div class="p-6 space-y-4">
+    <h2 class="text-xl font-semibold">Supervisor Profile</h2>
+    <div v-if="supervisor">
+      <p><strong>Name:</strong> {{ supervisor.name }}</p>
+      <p><strong>Department:</strong> {{ supervisor.department }}</p>
+      <p><strong>University:</strong> {{ supervisor.university }}</p>
+    </div>
+    <div v-else>
+      <p class="text-gray-500">No supervisor found.</p>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
 import { useSupervisorStore } from '@/stores/supervisorStore';
+import { ref } from 'vue';
+
+// Example: assume logged-in supervisor has ID = 1
+const supervisorId = 1;
 
 const supervisorStore = useSupervisorStore();
-const supervisor = ref({});
-
-onMounted(() => {
-  supervisor.value = supervisorStore.fetchSupervisor(1); // Logged-in supervisor
-});
+const supervisor = ref(supervisorStore.fetchSupervisor(supervisorId));
 </script>

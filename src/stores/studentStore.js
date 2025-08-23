@@ -3,56 +3,128 @@ import { ref } from 'vue';
 
 export const useStudentStore = defineStore('student', () => {
   const students = ref([
-    { id: 1, name: 'John Doe', status: 'Pending', supervisorId: 1 },
-    { id: 2, name: 'Jane Smith', status: 'Pending', supervisorId: 2 },
-    { id: 3, name: 'Alice Johnson', status: 'Pending', supervisorId: 1 },
-    { id: 4, name: 'Bob Lee', status: 'Pending', supervisorId: 1 },
-    { id: 5, name: 'Charlie Brown', status: 'Pending', supervisorId: 1 },
-    { id: 6, name: 'Diana Ross', status: 'Pending', supervisorId: 1 },
-    { id: 7, name: 'Evan White', status: 'Pending', supervisorId: null },
-    { id: 8, name: 'Fiona Green', status: 'Pending', supervisorId: 1 },
-    { id: 9, name: 'George Black', status: 'Pending', supervisorId: null },
-    { id: 10, name: 'Hannah Blue', status: 'Pending', supervisorId: 1 },
-    { id: 11, name: 'Ian Grey', status: 'Pending', supervisorId: null },
-    { id: 12, name: 'Jill Yellow', status: 'Pending', supervisorId: null },
-    { id: 13, name: 'Kevin Orange', status: 'Pending', supervisorId: 1 },
-    { id: 14, name: 'Lily Purple', status: 'Pending', supervisorId: null },
-    { id: 15, name: 'Mike Pink', status: 'Pending', supervisorId: null },
-    { id: 16, name: 'Nina Red', status: 'Pending', supervisorId: 1 },
-    { id: 17, name: 'Oscar Cyan', status: 'Pending', supervisorId: 1 },
-    { id: 18, name: 'Paula Magenta', status: 'Pending', supervisorId: null },
-    { id: 19, name: 'Quinn Lime', status: 'Pending', supervisorId: null },
-    { id: 20, name: 'Rita Teal', status: 'Pending', supervisorId: null }
+    {
+      id: 1,
+      name: 'Alice Johnson',
+      supervisorId: 1,
+      submittedTasks: [
+        { title: 'Updated UI', details: 'Worked on dashboard UI components' },
+        { title: 'Fixed Login', details: 'Corrected validation errors' },
+        { title: 'Database Migration', details: 'Migrated tables to new schema' },
+        { title: 'API Integration', details: 'Connected front-end to API' },
+        { title: 'Testing', details: 'Wrote unit tests for login module' },
+      ]
+    },
+    {
+      id: 2,
+      name: 'Bob Smith',
+      supervisorId: 1,
+      submittedTasks: [
+        { title: 'Created Forms', details: 'Designed student registration forms' },
+        { title: 'Bug Fix', details: 'Resolved styling issues in login page' },
+        { title: 'Server Setup', details: 'Configured development server' },
+        { title: 'API Calls', details: 'Tested GET and POST requests' },
+        { title: 'Debugging', details: 'Fixed UI misalignment issues' },
+      ]
+    },
+    {
+      id: 3,
+      name: 'Charlie Brown',
+      supervisorId: 2,
+      submittedTasks: [
+        { title: 'Initial Commit', details: 'Set up project repository' },
+        { title: 'Login Page', details: 'Developed login functionality' },
+        { title: 'UI Improvements', details: 'Enhanced dashboard layout' },
+        { title: 'Bug Fixes', details: 'Resolved navigation issues' },
+        { title: 'Testing', details: 'Conducted integration tests' },
+      ]
+    },
+    {
+      id: 4,
+      name: 'Diana Prince',
+      supervisorId: 2,
+      submittedTasks: [
+        { title: 'Project Setup', details: 'Initialized project structure' },
+        { title: 'Form Validation', details: 'Implemented validation logic' },
+        { title: 'UI Design', details: 'Created responsive design elements' },
+        { title: 'API Integration', details: 'Connected front-end to back-end' },
+        { title: 'Debugging', details: 'Fixed data rendering issues' },
+      ]
+    },
+    {
+      id: 5,
+      name: 'Ethan Hunt',
+      supervisorId: 1,
+      submittedTasks: [
+        { title: 'Backend Setup', details: 'Configured server and database' },
+        { title: 'Login Functionality', details: 'Implemented user authentication' },
+        { title: 'UI Enhancements', details: 'Improved dashboard aesthetics' },
+        { title: 'Bug Fixes', details: 'Resolved API call issues' },
+        { title: 'Testing', details: 'Performed unit testing on modules' },
+      ]
+    },
+    {
+      id: 6,
+      name: 'Fiona Gallagher',
+      supervisorId: 1,
+      submittedTasks: [
+        { title: 'Project Initialization', details: 'Set up initial project files' },
+        { title: 'Form Creation', details: 'Developed student registration forms' },
+        { title: 'UI Improvements', details: 'Enhanced user interface components' },
+        { title: 'API Testing', details: 'Tested API endpoints for data retrieval' },
+        { title: 'Debugging', details: 'Fixed layout issues on dashboard' },
+      ]
+    },
+    {
+      id: 7,
+      name: 'George Martin',
+      supervisorId: 2,
+      submittedTasks: [
+        { title: 'Repository Setup', details: 'Created project repository' },
+        { title: 'Login Page Development', details: 'Built login functionality' },
+        { title: 'UI Design', details: 'Designed dashboard layout' },
+        { title: 'Bug Fixes', details: 'Resolved navigation issues' },
+        { title: 'Testing', details: 'Conducted integration tests' },
+      ]
+    },
+    {
+      id: 8,
+      name: 'Hannah Baker',
+      supervisorId: 2,
+      submittedTasks: [
+        { title: 'Project Structure', details: 'Initialized project structure' },
+        { title: 'Form Validation', details: 'Implemented validation logic' },
+        { title: 'UI Design', details: 'Created responsive design elements' },
+        { title: 'API Integration', details: 'Connected front-end to back-end' },
+        { title: 'Debugging', details: 'Fixed data rendering issues' },
+      ]
+    },
+    {
+      id: 9,
+      name: 'Ian Somerhalder',
+      supervisorId: 1,
+      submittedTasks: [
+        { title: 'Backend Setup', details: 'Configured server and database' },
+        { title: 'Login Functionality', details: 'Implemented user authentication' },
+        { title: 'UI Enhancements', details: 'Improved dashboard aesthetics' },
+        { title: 'Bug Fixes', details: 'Resolved API call issues' },
+        { title: 'Testing', details: 'Performed unit testing on modules' },
+      ]
+    },
+    {
+      id: 10,
+      name: 'Jane Doe',
+      supervisorId: 1,
+      submittedTasks: [
+        { title: 'Project Initialization', details: 'Set up initial project files' },
+        { title: 'Form Creation', details: 'Developed student registration forms' },
+        { title: 'UI Improvements', details: 'Enhanced user interface components' },
+        { title: 'API Testing', details: 'Tested API endpoints for data retrieval' },
+        { title: 'Debugging', details: 'Fixed layout issues on dashboard' },
+      ]
+    },
+    // ... add 18 more students similarly with supervisorId 1 or 2
   ]);
 
-  // Fetch all students
-  const fetchAllStudents = () => students.value;
-
-  // Update student status (Approved / Rejected)
-  const updateStatus = (id, status) => {
-    const student = students.value.find(s => s.id === id);
-    if (student) student.status = status;
-  };
-
-  // Assign student to supervisor
-  const assignStudent = (studentId, supervisorId) => {
-    const student = students.value.find(s => s.id === studentId);
-    if (student) student.supervisorId = supervisorId;
-  };
-
-  // Load students (for backend later)
-  const loadStudents = (data) => {
-    students.value = data.map(student => ({
-      ...student,
-      status: student.status || 'Pending',
-    }));
-  };
-
-  return {
-    students,
-    fetchAllStudents,
-    updateStatus,
-    assignStudent,
-    loadStudents
-  };
+  return { students };
 });

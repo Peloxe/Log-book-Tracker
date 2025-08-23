@@ -1,37 +1,56 @@
 import { defineStore } from 'pinia';
-import { ref } from 'vue';
-import { useStudentStore } from './studentStore';
+import { reactive } from 'vue';
 
 export const useLogStore = defineStore('log', () => {
-  const logs = ref([
-    { id: 1, studentId: 1, task: 'Updated UI', date: '2025-08-15', status: 'Pending' },
-    { id: 2, studentId: 1, task: 'Fixed login bug', date: '2025-08-16', status: 'Pending' },
-    { id: 3, studentId: 2, task: 'Worked on dashboard', date: '2025-08-17', status: 'Pending' }
-  ]);
+  const logs = reactive(JSON.parse(localStorage.getItem('logs') || '[]'));
 
-  const studentStore = useStudentStore();
+  function initLogs(students) {
+    students.forEach(student => {
+      if (!student.submittedTasks) return; // skip if missing
 
-  const fetchLogsByStudent = (studentId) => logs.value.filter(log => log.studentId === studentId);
+      for (let i = 0; i < 5; i++) {
+        const date = new Date();
+        date.setDate(date.getDate() - i);
+        const dateStr = date.toISOString().split('T')[0]; // YYYY-MM-DD
 
-  const approveLog = (id) => {
-    const log = logs.value.find(l => l.id === id);
+        // Check if log exists
+        const exists = logs.find(l => l.studentId === student.id && l.date === dateStr);
+        if (exists) continue;
+
+        const taskObj = student.submittedTasks[i] || { 
+          title: `Task ${i + 1}`, 
+          details: `Details for task ${i + 1}` 
+
+          };
+
+        logs.push({
+          id: `${student.id}-${i + 1}`,
+          studentId: student.id,
+          date: dateStr,
+          task: taskObj.title,
+          description: taskObj.details,
+          status: 'Pending'
+        });
+      }
+    });
+    persistLogs();
+  }
+
+  function getLogsByStudent(studentId) {
+    return logs.filter(l => l.studentId === studentId);
+  }
+
+  function updateStatus(logId, status) {
+    const log = logs.find(l => l.id === logId);
     if (log) {
-      log.status = 'Approved';
-      const student = studentStore.students.find(s => s.id === log.studentId);
-      if (student) student.status = 'Approved';
+      log.status = status;
+      persistLogs();
     }
-  };
+  }
 
-  const rejectLog = (id) => {
-    const log = logs.value.find(l => l.id === id);
-    if (log) {
-      log.status = 'Rejected';
-      const student = studentStore.students.find(s => s.id === log.studentId);
-      if (student) student.status = 'Rejected';
-    }
-  };
+  function persistLogs() {
+    localStorage.setItem('logs', JSON.stringify(logs));
+  }
 
-  const loadLogs = (data) => logs.value = data;
-
-  return { logs, fetchLogsByStudent, approveLog, rejectLog, loadLogs };
+  return { logs, initLogs, getLogsByStudent, updateStatus };
 });
