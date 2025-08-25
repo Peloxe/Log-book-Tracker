@@ -12,7 +12,7 @@ const auth = useAuthStore();
 const route = useRoute();
 const router = useRouter(); // ✅ initialize router
 
-const hiddenRoutes = ['/', '/signup/student', '/signup/admin', '/signup/supervisor', '/login'];
+const hiddenRoutes = ['/', '/signup/student', '/signup/admin', '/signup/supervisor', '/login', '/student-setup', '/supervisor-setup', '/admin-setup', '/verify'];
 const showNavbar = computed(() => !hiddenRoutes.includes(route.path));
 
 function closeMenu() {

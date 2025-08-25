@@ -15,6 +15,5 @@ app.use(router)
 
 app.mount('#app')
 
-// ⬅️ call init AFTER app is created
 const auth = useAuthStore()
 auth.init()

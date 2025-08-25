@@ -108,15 +108,49 @@
   }
 </style>
 
+<style scoped>
+  /* your styles remain unchanged */
+</style>
+
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted, onUnmounted } from "vue";
+import axios from "axios";
 import { useAuthStore } from "@/stores/auth";
 
 const auth = useAuthStore();
 
 const otp = ref(["", "", "", "", "", ""]); // 6-digit OTP
 const submitting = ref(false);
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 const error = ref("");
+
+const countdown = ref(120); // 2 minutes in seconds
+let timer = null;
+
+/**
+ * Start countdown timer
+ */
+function startCountdown() {
+  countdown.value = 120;
+  if (timer) clearInterval(timer);
+
+  timer = setInterval(() => {
+    if (countdown.value > 0) {
+      countdown.value--;
+    } else {
+      clearInterval(timer);
+      timer = null;
+    }
+  }, 1000);
+}
+
+onMounted(() => {
+  startCountdown();
+});
+
+onUnmounted(() => {
+  if (timer) clearInterval(timer);
+});
 
 /**
  * Automatically move focus to next field when typing
@@ -154,9 +188,8 @@ async function handleSubmit(e) {
 
   try {
     const code = otp.value.join(""); // Combine into full string
-    await auth.verifyAccount(code);  // 🔑 let auth store decide navigation
+    await auth.verifyAccount(code);  // 🔑 let auth store handle navigation
 
-    // If store sets error, show it
     if (auth.error) {
       error.value = auth.error;
     }
@@ -164,6 +197,18 @@ async function handleSubmit(e) {
     error.value = err.response?.data?.message || "Invalid code. Try again.";
   } finally {
     submitting.value = false;
+  }
+}
+
+
+async function resendCode() {
+  try {
+    await axios.post(`${API_BASE_URL}/api/v1/users/resend-code/`, {
+      email: auth.pendingEmail,
+    });
+    startCountdown(); 
+  } catch (err) {
+    console.error("❌ Resend error:", err.response?.data || err);
   }
 }
 </script>
@@ -198,8 +243,18 @@ async function handleSubmit(e) {
 
       <p class="resendNote">
         Didn't receive the code?
-        <button type="button" class="resendBtn" @click="">
-          Resend Code
+        <button
+          type="button"
+          class="resendBtn"
+          :disabled="countdown > 0"
+          @click="resendCode"
+        >
+          <span v-if="countdown > 0">
+            Resend in {{ Math.floor(countdown / 60) }}:{{ (countdown % 60).toString().padStart(2,'0') }}
+          </span>
+          <span v-else>
+            Resend Code
+          </span>
         </button>
       </p>
     </form>

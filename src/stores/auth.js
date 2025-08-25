@@ -91,13 +91,13 @@ export const useAuthStore = defineStore('auth', {
             console.log("⚠️ No profile found, checking role:", this.user.role)
             switch (this.user.role) {
               case 'student':
-                router.push('/student/profile-setup')
+                router.push('/student-setup')
                 break
               case 'supervisor':
-                router.push('/supervisor/profile-setup')
+                router.push('/supervisor-setup')
                 break
               case 'admin':
-                router.push('/admin/profile-setup')
+                router.push('/admin-setup')
                 break
               default:
                 console.error("❌ Unknown role, staying put")
