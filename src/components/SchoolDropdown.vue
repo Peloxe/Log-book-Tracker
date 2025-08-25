@@ -4,7 +4,7 @@ import axios from "axios"
 
 // props + emits (so parent fit collect school & department id)
 const emit = defineEmits(["update:school", "update:department"])
-
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 const schools = ref([])
 const departments = ref([])
 const selectedSchool = ref(null)
@@ -19,7 +19,7 @@ onMounted(async () => {
 const fetchSchools = async () => {
   loadingSchools.value = true
   try {
-    const res = await axios.get("http://localhost:8000/api/v1/school/list-school/")
+    const res = await axios.get(`${API_BASE_URL}/api/v1/school/list-school/`)
     schools.value = res.data
   } catch (err) {
     console.error("Error fetching schools", err)
