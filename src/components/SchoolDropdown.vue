@@ -35,7 +35,7 @@ const fetchDepartments = async (schoolId) => {
   }
   loadingDepartments.value = true
   try {
-    const res = await axios.get(`http://localhost:8000/api/v1/school/${schoolId}/departments`)
+    const res = await axios.get(`${API_BASE_URL}/api/v1/school/${schoolId}/departments`)
     departments.value = res.data
   } catch (err) {
     console.error("Error fetching departments", err)
