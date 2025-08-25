@@ -139,13 +139,13 @@ html {
 
     <!-- Hero -->
     <section id="home" class="min-h-screen flex items-center justify-center bg-gray-50">
-      <div class="text-center md:text-left md:justify-center md:flex flex-wrap md:items-center ">
+      <div class="text-center md:text-left md:justify-center md:flex flex-wrap lg:flex-nowrap md:items-center ">
         <div class="flex flex-col items-center lg:items-start pt-18 px-4 lg:px-0 lg:py-0">
           <h1 class="text-3xl lg:w-185 md:text-6xl my-6 font-bold text-[#374151] mb-4">Welcome to SIWES Tracker</h1>
           <h2 class="text-xl tracking-wide font-semibold text-[#374151] mb-4 lg:w-190">Empowering Students & Supervisors
             with Digital Logbooks
           </h2>
-          <p class="text-lg text-gray-600 mb-6  lg:w-180">Digitally manage and track your internship logbook with ease.
+          <p class="text-lg text-gray-600 mb-6  lg:w-160">Digitally manage and track your internship logbook with ease.
             A digital
             logbook for students, supervisors, and institutions.</p>
           <div class="flex gap-4">

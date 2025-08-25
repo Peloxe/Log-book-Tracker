@@ -4,3 +4,31 @@
 * {
   font-family: "Poppins", sans-serif;
 }
+
+@media (max-width: 768px){
+    .nav-links{
+        opacity: 1;
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        top: 0;
+        right: 0;
+        height: 100%;
+        width: 250px;
+        background-color: #f8f9fa;
+        padding-top: 60px;
+        transform: translateX(100%);
+        z-index: 9;
+    }
+    .nav-links.show{
+        transform: translateX(0);
+    }
+    .nav-links a{
+        padding: 15px;
+        text-align: center;
+        width: 100%;
+        margin: 10px 0;
+        color: black;
+        display: block;
+    }
+  }

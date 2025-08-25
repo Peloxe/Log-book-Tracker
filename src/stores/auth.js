@@ -1,7 +1,7 @@
-// src/stores/auth.js
 import router from '@/router'
 import { defineStore } from 'pinia'
 import axios from 'axios'
+import api from '@/utils/axios'
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
@@ -13,7 +13,7 @@ export const useAuthStore = defineStore('auth', {
 
   actions: {
     async signup(payload) {
-      const res = await axios.post('http://192.168.1.220:8000/api/v1/users/register/', payload)
+      const res = await api.post('/api/v1/users/register/', payload)
       this.pendingEmail = payload.email
       localStorage.setItem('pendingEmail', payload.email)
       return res.data
@@ -23,7 +23,7 @@ export const useAuthStore = defineStore('auth', {
       const payload = { email: this.pendingEmail, code }
       console.log("📤 Verify payload:", payload)
 
-      const res = await axios.post('http://192.168.1.220:8000/api/v1/users/verify-code/', payload)
+      const res = await api.post('/api/v1/users/verify-code/', payload)
 
       console.log("🔑 Verify response:", res.data)
 
@@ -43,7 +43,7 @@ export const useAuthStore = defineStore('auth', {
     },
 
     async login(credentials) {
-      const res = await axios.post('http://192.168.1.220:8000/api/login/', credentials)
+      const res = await api.post('/api/login/', credentials)
 
       console.log("🔑 Login response:", res.data)
 
@@ -66,14 +66,14 @@ export const useAuthStore = defineStore('auth', {
       }
       try {
         console.log("➡️ Calling /users/detail with token:", this.accessToken)
-        const res = await axios.get('http://192.168.1.220:8000/api/v1/users/detail/')
+        const res = await api.get('/api/v1/users/detail/')
         this.user = res.data
+        localStorage.setItem("user", JSON.stringify(this.user)) // ✅ cache user
         console.log("✅ User fetched:", res.data)
-
+        
         if (redirect) {
           if (this.user.profile) {
             console.log("🚀 Profile exists → redirecting to Dashboard")
-            // 🎯 Role-specific dashboard
             switch (this.user.role) {
               case 'student':
                 router.push('/student/dashboard')
@@ -89,7 +89,6 @@ export const useAuthStore = defineStore('auth', {
             }
           } else {
             console.log("⚠️ No profile found, checking role:", this.user.role)
-            // 🎯 Role-specific profile setup
             switch (this.user.role) {
               case 'student':
                 router.push('/student/profile-setup')
@@ -120,6 +119,7 @@ export const useAuthStore = defineStore('auth', {
       localStorage.removeItem('accessToken')
       localStorage.removeItem('refreshToken')
       localStorage.removeItem('pendingEmail')
+      localStorage.removeItem('user') // ✅ remove cached user
 
       delete axios.defaults.headers.common['Authorization']
     },
@@ -127,12 +127,20 @@ export const useAuthStore = defineStore('auth', {
     init() {
       const accessToken = localStorage.getItem('accessToken')
       const refreshToken = localStorage.getItem('refreshToken')
+      const cachedUser = localStorage.getItem('user')
+
+
 
       if (accessToken && refreshToken) {
         this.accessToken = accessToken
         this.refreshToken = refreshToken
         axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`
         this.fetchUser()
+      }
+
+      if (cachedUser) {
+        this.user = JSON.parse(cachedUser) // ✅ restore cached user
+        console.log("♻️ Restored cached user:", this.user)
       }
 
       this.pendingEmail = localStorage.getItem('pendingEmail') || null
