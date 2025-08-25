@@ -1,26 +1,29 @@
-import { createRouter, createWebHistory } from 'vue-router';
+import { createRouter, createWebHistory } from "vue-router";
 
-
-
-import LandingPage from '@/pages/LandingPage.vue';
-import SignupPage from '@/pages/SignupPage.vue';
-import VerificationForm from '@/components/VerificationForm.vue';
-import LoginPage from '@/pages/LoginPage.vue';
-import ProfilePage from '@/pages/ProfileSetup.vue';
-
-
+import LandingPage from "@/pages/LandingPage.vue";
+import SignupPage from "@/pages/SignupPage.vue";
+import VerificationForm from "@/components/VerificationForm.vue";
+import LoginPage from "@/pages/LoginPage.vue";
+import ProfilePage from "@/pages/ProfileSetup.vue";
+import StudentProfile from "@/pages/StudentProfile.vue";
+import SupervisorProfilePage from "@/pages/SupervisorProfilePage.vue";
+import AdminProfilePage from "@/pages/AdminProfilePage.vue";
 
 const routes = [
-  { path: '/', component: LandingPage },
-  { path: '/verify', component: VerificationForm },
-  { path: '/login', component: LoginPage },
-  { path: '/profile', component: ProfilePage },
+  { path: "/", component: LandingPage },
+  { path: "/verify", component: VerificationForm },
+  { path: "/login", component: LoginPage },
+  { path: "/profile", component: ProfilePage },
+  { path: "/student-setup", component: StudentProfile },
+  { path: "/supervisor-setup", component: SupervisorProfilePage },
+  { path: "/admin-setup", component: AdminProfilePage },
+
   {
-  path: '/signup/:role(student|supervisor|admin)',
-  name: 'RoleForm',
-  component: SignupPage,
-  props: true
-},
+    path: "/signup/:role(student|supervisor|admin)",
+    name: "RoleForm",
+    component: SignupPage,
+    props: true,
+  },
 
   {
     path: "/profile",
@@ -48,7 +51,6 @@ const routes = [
   // },
 ];
 
-
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes,
@@ -70,4 +72,3 @@ const router = createRouter({
 // });
 
 export default router;
-

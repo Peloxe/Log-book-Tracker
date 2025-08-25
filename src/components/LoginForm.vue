@@ -86,7 +86,7 @@ async function handleLogin() {
       </form>
 
       <p class="mt-4 text-sm text-center text-gray-600 dark:text-gray-400">
-        No account? <router-link to="/register" class="text-indigo-600">Register</router-link>
+        No account? <router-link to="/signup/student" class="text-indigo-600">Register</router-link>
       </p>
     </div>
   </div>
