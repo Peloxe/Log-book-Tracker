@@ -5,7 +5,7 @@ import api from '@/utils/axios'
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
-    accessToken: null,
+    accessToken: localStorage.getItem('accessToken') || null,
     refreshToken: null,
     user: null,
     pendingEmail: localStorage.getItem('pendingEmail') || null,
@@ -139,7 +139,7 @@ export const useAuthStore = defineStore('auth', {
       }
 
       if (cachedUser) {
-        this.user = JSON.parse(cachedUser) // ✅ restore cached user
+        this.user = JSON.parse(cachedUser) 
         console.log("♻️ Restored cached user:", this.user)
       }
 

@@ -1,9 +1,12 @@
 <script setup>
-import { ref } from "vue";
+import { ref, useAttrs } from "vue";
 import { RouterLink } from "vue-router";
 import Button from "@/components/Button.vue";
-
+import { useAuthStore } from "@/stores/auth";
+const auth = useAuthStore();
 const menuOpen = ref(false);
+
+const role = ref(auth.user?.role || '');
 const toggleMenu = () => {
   menuOpen.value = !menuOpen.value;
 };
@@ -110,8 +113,9 @@ html {
             <a href="#contact" class="text-white hover:text-blue-600">Contact</a>
           </li>
           <li>
-            <RouterLink to="/login" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Login
+            <RouterLink v-if="!auth.accessToken"  to="/login" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Login
             </RouterLink>
+            <RouterLink v-else :to="`${role}/dashboard`" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Account</RouterLink>
           </li>
         </ul>
         <button class="text-white md:hidden" @click="toggleMenu">
@@ -138,7 +142,7 @@ html {
     </header>
 
     <!-- Hero -->
-    <section id="home" class="min-h-screen flex items-center justify-center bg-gray-50">
+    <section id="home" class="min-h-screen flex items-center mx-auto justify-center bg-gray-50">
       <div class="text-center md:text-left md:justify-center md:flex flex-wrap lg:flex-nowrap md:items-center ">
         <div class="flex flex-col items-center lg:items-start pt-18 px-4 lg:px-0 lg:py-0">
           <h1 class="text-3xl lg:w-185 md:text-6xl my-6 font-bold text-[#374151] mb-4">Welcome to SIWES Tracker</h1>
