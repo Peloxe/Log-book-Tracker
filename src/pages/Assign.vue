@@ -18,16 +18,37 @@
             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">#</th>
             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Student Name</th>
             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Supervisor</th>
+            <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Action</th>
           </tr>
         </thead>
         <tbody class="bg-white divide-y divide-gray-200">
-          <tr v-for="(student, index) in displayedStudents" :key="student.id" class="hover:bg-gray-50 transition">
+          <tr
+            v-for="(student, index) in displayedStudents"
+            :key="student.id"
+            class="hover:bg-gray-50 transition"
+          >
             <td class="px-6 py-3 font-medium">{{ index + 1 }}</td>
-            <td class="px-6 py-3 text-blue-600 cursor-pointer hover:underline">{{ student.name }}</td>
-            <td class="px-6 py-3">{{ getSupervisorName(student.supervisorId) }}</td>
+            <td class="px-6 py-3 text-blue-600 cursor-pointer hover:underline">
+              {{ student.name }}
+            </td>
+            <td class="px-6 py-3">
+              {{ getSupervisorName(student.supervisorId) }}
+            </td>
+            <td class="px-6 py-3 text-center">
+              <!-- Show only if unassigned -->
+              <button
+                v-if="!student.supervisorId"
+                @click="assignStudent(student)"
+                class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
+              >
+                Assign
+              </button>
+            </td>
           </tr>
           <tr v-if="displayedStudents.length === 0">
-            <td colspan="3" class="px-6 py-3 text-center text-gray-500">No students found.</td>
+            <td colspan="4" class="px-6 py-3 text-center text-gray-500">
+              No students found.
+            </td>
           </tr>
         </tbody>
       </table>
@@ -36,18 +57,18 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
-import { useStudentStore } from '@/stores/studentStore';
-import { useSupervisorStore } from '@/stores/supervisorStore';
+import { ref, computed } from "vue";
+import { useStudentStore } from "@/stores/studentStore";
+import { useSupervisorStore } from "@/stores/supervisorStore";
 
 const studentStore = useStudentStore();
 const supervisorStore = useSupervisorStore();
-const searchTerm = ref('');
+const searchTerm = ref("");
 
-// Reactive filtered students (searchable, max 20)
+// Search and limit to 20 students
 const displayedStudents = computed(() => {
   return studentStore.students
-    .filter(student =>
+    .filter((student) =>
       student.name.toLowerCase().includes(searchTerm.value.toLowerCase())
     )
     .slice(0, 20);
@@ -56,6 +77,15 @@ const displayedStudents = computed(() => {
 // Get supervisor name or 'Unassigned'
 const getSupervisorName = (id) => {
   const sup = supervisorStore.fetchSupervisor(id);
-  return sup ? sup.name : 'Unassigned';
+  return sup ? sup.name : "Unassigned";
+};
+
+// Assign student to logged-in supervisor
+const assignStudent = (student) => {
+  const currentSupervisor = supervisorStore.currentSupervisor; // active supervisor
+  if (currentSupervisor) {
+    student.supervisorId = currentSupervisor.id;
+    studentStore.updateStudent(student); // persist in store
+  }
 };
 </script>

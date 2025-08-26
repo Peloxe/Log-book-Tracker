@@ -7,7 +7,15 @@ export const useSupervisorStore = defineStore('supervisor', () => {
     { id: 2, name: 'Prof. Johnson', department: 'Engineering', university: 'Tech University' }
   ]);
 
+  // Auto-login first supervisor by default
+  const currentSupervisor = ref(supervisors.value[0]);
+
   const fetchSupervisor = (id) => supervisors.value.find(s => s.id === id);
 
-  return { supervisors, fetchSupervisor };
+  const loginSupervisor = (id) => {
+    const sup = fetchSupervisor(id);
+    if (sup) currentSupervisor.value = sup;
+  };
+
+  return { supervisors, fetchSupervisor, currentSupervisor, loginSupervisor };
 });
