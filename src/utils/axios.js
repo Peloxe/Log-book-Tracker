@@ -1,5 +1,5 @@
 import axios from "axios";
-import router from "@/router"; // make sure this points to your router
+import router from "@/router/router"; // make sure this points to your router
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL,

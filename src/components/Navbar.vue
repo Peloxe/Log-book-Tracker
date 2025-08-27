@@ -66,25 +66,25 @@ onBeforeUnmount(() => {
         isMenuVisible ? 'show' : ''
       ]"
     >
-      <a
-        href="#"
+      <RouterLink
+        to="/profile"
         @click="closeMenu"
         class="font-semibold px-4 py-2  text-black text-white lg:hidden"
       >
         Profile
-      </a>
-      <a
-        href="#"
+      </RouterLink>
+      <RouterLink
+        to="#"
         @click.prevent="handleLogout"
         class="font-semibold px-4 py-2 rounded-xl text-black bg-gradient-to-r from-red-400 to-red-600  text-white lg:hidden"
       >
         Logout
-      </a>
+      </RouterLink>
     </div>
 
     <div class="flex gap-2">
       <RouterLink
-        to="/ProfileCard"
+        to="/profile"
         class="font-semibold px-4 py-2 text-black text-white hidden lg:block"
       >
         Profile
