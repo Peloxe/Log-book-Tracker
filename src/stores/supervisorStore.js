@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { ref, watch, computed } from 'vue';
+import { ref, computed, watch } from 'vue';
 
 export const useSupervisorStore = defineStore('supervisor', () => {
   const supervisors = ref([
@@ -7,46 +7,28 @@ export const useSupervisorStore = defineStore('supervisor', () => {
     { id: 2, name: 'Prof. Johnson', department: 'Engineering', university: 'Tech University', profilePicture: null }
   ]);
 
-  // Current supervisor object
-  const currentSupervisor = ref(
-    JSON.parse(localStorage.getItem('currentSupervisor')) || supervisors.value[0]
-  );
+  // Current logged-in supervisor (for admin this is optional, but we keep it for consistency)
+  const currentSupervisor = ref(JSON.parse(localStorage.getItem('currentSupervisor')) || supervisors.value[0]);
 
-  // Reactive logged-in supervisor ID
   const loggedInSupervisorId = computed(() => currentSupervisor.value?.id);
 
-  // Fetch supervisor by ID
   const fetchSupervisor = (id) => supervisors.value.find(s => s.id === id);
 
-  // Update supervisor profile picture
   const updateProfilePicture = (file) => {
     if (!file || !currentSupervisor.value) return;
-
     const reader = new FileReader();
-    reader.onload = () => {
-      currentSupervisor.value.profilePicture = reader.result;
-    };
+    reader.onload = () => currentSupervisor.value.profilePicture = reader.result;
     reader.readAsDataURL(file);
   };
 
-  // Remove profile picture
   const removeProfilePicture = () => {
     if (currentSupervisor.value) currentSupervisor.value.profilePicture = null;
   };
 
-  // Persist current supervisor in localStorage
-  watch(
-    currentSupervisor,
-    (newVal) => localStorage.setItem('currentSupervisor', JSON.stringify(newVal)),
-    { deep: true }
-  );
+  // Persist current supervisor
+  watch(currentSupervisor, (val) => {
+    localStorage.setItem('currentSupervisor', JSON.stringify(val));
+  }, { deep: true });
 
-  return {
-    supervisors,
-    currentSupervisor,
-    loggedInSupervisorId,
-    fetchSupervisor,
-    updateProfilePicture,
-    removeProfilePicture
-  };
+  return { supervisors, currentSupervisor, loggedInSupervisorId, fetchSupervisor, updateProfilePicture, removeProfilePicture };
 });

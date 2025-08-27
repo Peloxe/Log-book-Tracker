@@ -8,9 +8,5 @@
 </template>
 
 <script setup>
-import Navbar from './components/Navbar.vue'
+import { RouterView } from 'vue-router';
 </script>
-
-<style>
-/* Any global overrides can go here */
-</style>
