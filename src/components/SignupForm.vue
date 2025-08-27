@@ -106,6 +106,9 @@ async function handleSignup() {
       <p class="mt-4 text-sm text-center text-gray-600 dark:text-gray-400">
         Have an account? <router-link to="/login" class="text-indigo-600">Login</router-link>
       </p>
+      <router-link to="/" class="text-sm text-slate-400 ">
+          ← Back 
+      </router-link>
     </div>
   </div>
 </template>

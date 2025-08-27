@@ -1,8 +1,23 @@
+<script setup>
+import { computed } from "vue";
+import { useLogbookStore } from "@/stores/logStore";
+
+const store = useLogbookStore();
+
+const approved = computed(() => store.logs.filter(log => log.status === 'approved').length);
+const pending = computed(() => store.logs.filter(log => log.status === 'pending').length);
+const lastEntryDate = computed(() => {
+  if (!store.logs.length) return null;
+  const sorted = [...store.logs].sort((a, b) => new Date(b.date) - new Date(a.date));
+  return new Date(sorted[0].date).toLocaleDateString();
+});
+</script>
+
 <template>
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
     <div class="bg-white p-4 rounded shadow text-center">
       <p class="text-gray-500 text-sm">Total Entries</p>
-      <p class="text-2xl font-semibold text-indigo-600">{{ logs.length }}</p>
+      <p class="text-2xl font-semibold text-indigo-600">{{ store.logs.length }}</p>
     </div>
 
     <div class="bg-white p-4 rounded shadow text-center">
@@ -10,7 +25,7 @@
       <p class="text-2xl font-semibold text-green-600">{{ approved }}</p>
     </div>
 
-    <div class="bg-white p-4 rounded shadow text-center">
+    <div class="bg-gradient-to-r from-yellow-400 to-yellow-600 p-4 rounded shadow text-center">
       <p class="text-gray-500 text-sm">Pending</p>
       <p class="text-2xl font-semibold text-yellow-600">{{ pending }}</p>
     </div>
@@ -21,22 +36,3 @@
     </div>
   </div>
 </template>
-
-<script setup>
-import { computed } from 'vue'
-
-const props = defineProps({
-    logs: {
-        type: Array,
-        default: () => []
-    }
-})
-const total = computed(() => props.logs.length)
-const approved = computed(() => props.logs.filter(log => log.status === 'Approved').length)
-const pending = computed(() => props.logs.filter(log => log.status === 'Pending').length)
-const lastEntryDate = computed(() => {
-  if (!props.logs.length) return null
-  const sorted = [...props.logs].sort((a, b) => new Date(b.date) - new Date(a.date))
-  return new Date(sorted[0].date).toLocaleDateString()
-})
-</script>

@@ -34,6 +34,8 @@ const saveProfile = async () => {
 
     ok.value = true
     msg.value = 'Profile saved successfully!'
+
+    router.push('/student/dashboard')
   } catch (e) {
     console.error(e.response?.data || e)
     msg.value = 'Error saving profile.'
