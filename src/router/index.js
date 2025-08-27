@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import Dashboard from '@/pages/Dashboard.vue';
+import Dashboard from '@/pages/SupervisorDashboard.vue';
 import Profile from '@/pages/Profile.vue';
 import LogTable from '@/components/LogTable.vue';
 import LogReview from '@/pages/LogReview.vue';
@@ -7,7 +7,7 @@ import Assign from '@/pages/Assign.vue';
 
 const routes = [
   {
-    path: '/',
+    path: '/supervisor/dashboard',
     name: 'Dashboard',
     component: Dashboard, // this will load when user visits "/"
   },
