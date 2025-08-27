@@ -23,19 +23,17 @@
         </thead>
         <tbody class="bg-white divide-y divide-gray-200">
           <tr
-            v-for="(student, index) in filteredStudents"
+            v-for="(student, index) in displayedStudents"
             :key="student.id"
             class="hover:bg-gray-50 transition"
           >
             <td class="px-6 py-3 font-medium">{{ index + 1 }}</td>
             <td class="px-6 py-3">{{ student.name }}</td>
-            <td class="px-6 py-3">
-              {{ getSupervisorName(student.supervisorId) }}
-            </td>
+            <td class="px-6 py-3">{{ getSupervisorName(student.supervisorId) }}</td>
             <td class="px-6 py-3">
               <button
                 v-if="!student.supervisorId"
-                @click="assignStudent(student.id)"
+                @click="assignStudent(student)"
                 class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-sm"
               >
                 Assign
@@ -44,7 +42,7 @@
             </td>
           </tr>
 
-          <tr v-if="filteredStudents.length === 0">
+          <tr v-if="displayedStudents.length === 0">
             <td colspan="4" class="px-6 py-3 text-center text-gray-500">
               No students found.
             </td>
@@ -62,24 +60,24 @@ import { useSupervisorStore } from '@/stores/supervisorStore';
 
 const studentStore = useStudentStore();
 const supervisorStore = useSupervisorStore();
-
 const searchTerm = ref('');
 
-// Filter students by search term
-const filteredStudents = computed(() => {
+// Computed for filtered and reactive students
+const displayedStudents = computed(() => {
   return studentStore.students
-    .filter(s => s.name.toLowerCase().includes(searchTerm.value.toLowerCase()))
-    .slice(0, 20); // optional limit
+    .filter(student => student.name.toLowerCase().includes(searchTerm.value.toLowerCase()))
+    .slice(0, 20);
 });
 
-// Get supervisor name or "Unassigned"
+// Get supervisor name or Unassigned
 const getSupervisorName = (id) => {
   const sup = supervisorStore.fetchSupervisor(id);
   return sup ? sup.name : 'Unassigned';
 };
 
-// Assign student to the logged-in supervisor
-const assignStudent = (studentId) => {
-  studentStore.assignToSupervisor(studentId, supervisorStore.loggedInSupervisorId);
+// Assign student and reactively update table
+const assignStudent = (student) => {
+  studentStore.assignToSupervisor(student.id, supervisorStore.loggedInSupervisorId);
+  // Vue ref will detect the change and immediately update the table
 };
 </script>

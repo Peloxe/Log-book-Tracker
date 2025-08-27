@@ -4,7 +4,7 @@
     <div class="flex items-center gap-6 mb-6">
       <!-- Profile Picture / Avatar -->
       <<!-- Profile Picture / Avatar -->
-<div class="w-28 h-28 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden">
+<div class="w-35 h-35 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden">
   <img
     v-if="supervisor?.profilePicture"
     :src="supervisor.profilePicture"
