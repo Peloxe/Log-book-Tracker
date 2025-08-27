@@ -10,7 +10,7 @@
       />
     </div>
 
-    <!-- Assignment Table -->
+    <!-- Assign Table -->
     <div class="overflow-x-auto border border-gray-200 rounded-lg shadow-sm w-full">
       <table class="min-w-full divide-y divide-gray-200">
         <thead class="bg-gray-50">
@@ -23,7 +23,7 @@
         </thead>
         <tbody class="bg-white divide-y divide-gray-200">
           <tr
-            v-for="(student, index) in displayedStudents"
+            v-for="(student, index) in filteredStudents"
             :key="student.id"
             class="hover:bg-gray-50 transition"
           >
@@ -33,7 +33,6 @@
               {{ getSupervisorName(student.supervisorId) }}
             </td>
             <td class="px-6 py-3">
-              <!-- ✅ Show Assign button only if unassigned -->
               <button
                 v-if="!student.supervisorId"
                 @click="assignStudent(student.id)"
@@ -41,10 +40,11 @@
               >
                 Assign
               </button>
+              <span v-else class="text-gray-500 font-medium">Assigned</span>
             </td>
           </tr>
 
-          <tr v-if="displayedStudents.length === 0">
+          <tr v-if="filteredStudents.length === 0">
             <td colspan="4" class="px-6 py-3 text-center text-gray-500">
               No students found.
             </td>
@@ -62,24 +62,23 @@ import { useSupervisorStore } from '@/stores/supervisorStore';
 
 const studentStore = useStudentStore();
 const supervisorStore = useSupervisorStore();
+
 const searchTerm = ref('');
 
-// ✅ Get supervisor name or "Unassigned"
+// Filter students by search term
+const filteredStudents = computed(() => {
+  return studentStore.students
+    .filter(s => s.name.toLowerCase().includes(searchTerm.value.toLowerCase()))
+    .slice(0, 20); // optional limit
+});
+
+// Get supervisor name or "Unassigned"
 const getSupervisorName = (id) => {
   const sup = supervisorStore.fetchSupervisor(id);
   return sup ? sup.name : 'Unassigned';
 };
 
-// ✅ Filter students (search, max 20)
-const displayedStudents = computed(() => {
-  return studentStore.students
-    .filter(student =>
-      student.name.toLowerCase().includes(searchTerm.value.toLowerCase())
-    )
-    .slice(0, 20);
-});
-
-// ✅ Assign to logged-in supervisor
+// Assign student to the logged-in supervisor
 const assignStudent = (studentId) => {
   studentStore.assignToSupervisor(studentId, supervisorStore.loggedInSupervisorId);
 };

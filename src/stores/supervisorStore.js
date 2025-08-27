@@ -1,17 +1,19 @@
 import { defineStore } from 'pinia';
-import { ref, watch } from 'vue';
+import { ref, watch, computed } from 'vue';
 
 export const useSupervisorStore = defineStore('supervisor', () => {
-  // List of supervisors
   const supervisors = ref([
     { id: 1, name: 'Dr. Smith', department: 'Computer Science', university: 'Tech University', profilePicture: null },
     { id: 2, name: 'Prof. Johnson', department: 'Engineering', university: 'Tech University', profilePicture: null }
   ]);
 
-  // Load current supervisor from localStorage OR default to first supervisor
+  // Current supervisor object
   const currentSupervisor = ref(
     JSON.parse(localStorage.getItem('currentSupervisor')) || supervisors.value[0]
   );
+
+  // Reactive logged-in supervisor ID
+  const loggedInSupervisorId = computed(() => currentSupervisor.value?.id);
 
   // Fetch supervisor by ID
   const fetchSupervisor = (id) => supervisors.value.find(s => s.id === id);
@@ -27,25 +29,22 @@ export const useSupervisorStore = defineStore('supervisor', () => {
     reader.readAsDataURL(file);
   };
 
-  // Remove supervisor profile picture
+  // Remove profile picture
   const removeProfilePicture = () => {
-    if (currentSupervisor.value) {
-      currentSupervisor.value.profilePicture = null;
-    }
+    if (currentSupervisor.value) currentSupervisor.value.profilePicture = null;
   };
 
-  // Automatically persist current supervisor in localStorage
+  // Persist current supervisor in localStorage
   watch(
     currentSupervisor,
-    (newVal) => {
-      localStorage.setItem('currentSupervisor', JSON.stringify(newVal));
-    },
+    (newVal) => localStorage.setItem('currentSupervisor', JSON.stringify(newVal)),
     { deep: true }
   );
 
   return {
     supervisors,
     currentSupervisor,
+    loggedInSupervisorId,
     fetchSupervisor,
     updateProfilePicture,
     removeProfilePicture
