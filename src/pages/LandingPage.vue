@@ -142,7 +142,7 @@ html {
     </header>
 
     <!-- Hero -->
-    <section id="home" class="min-h-screen flex items-center mx-auto justify-center bg-gray-50">
+    <section id="home" class="min-h-screen flex items-center mx-auto justify-center bg-gray-50 px-8">
       <div class="text-center md:text-left md:justify-center md:flex flex-wrap lg:flex-nowrap md:items-center ">
         <div class="flex flex-col items-center lg:items-start pt-18 px-4 lg:px-0 lg:py-0">
           <h1 class="text-3xl lg:w-185 md:text-6xl my-6 font-bold text-[#374151] mb-4">Welcome to SIWES Tracker</h1>
@@ -152,14 +152,14 @@ html {
           <p class="text-lg text-gray-600 mb-6  lg:w-160">Digitally manage and track your internship logbook with ease.
             A digital
             logbook for students, supervisors, and institutions.</p>
-          <div class="flex gap-4">
+          <div class="flex gap-4 lg:gap-2">
             <a href="#about" class="border bg-blue-700 px-6 py-3 rounded-lg text-[#ffffff] hover:bg-[#1e3a8a]">Learn
               More</a>
             <Button />
           </div>
         </div>
         <div class=" mt-10 md:mt-0">
-          <img src="@/assets/images/image3.svg" alt="Hero" class="rounded-lg h-110 lg:h-160 mx-auto" />
+          <img src="@/assets/images/image3.svg" alt="Hero" class="rounded-lg h-110 lg:h-160 " />
         </div>
       </div>
     </section>
@@ -222,26 +222,26 @@ html {
       </div>
     </section> -->
 
-    <section id="features" class="py-16 bg-gray-50 dark:bg-gray-950 scroll-mt-20">
+    <section id="features" class="py-16 bg-gray-50  scroll-mt-20">
       <div class="max-w-7xl mx-auto px-6 lg:px-8">
-        <h2 class="text-3xl font-bold text-[#374151] dark:text-white text-center">Features</h2>
-        <p class="text-gray-600 dark:text-gray-400 text-center mt-2">Everything you need for SIWES tracking.</p>
+        <h2 class="text-3xl font-bold text-[#374151]  text-center">Features</h2>
+        <p class="text-gray-600  text-center mt-2">Everything you need for SIWES tracking.</p>
 
         <div class="mt-10 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          <div class="p-6 rounded-2xl border border-gray-200 dark:border-gray-800 shadow-sm">
-            <h3 class="font-semibold text-gray-900 dark:text-white">Weekly Log Entries</h3>
-            <p class="mt-2 text-gray-600 dark:text-gray-400">Add, edit, and submit weekly activity logs with
+          <div class="p-6 rounded-2xl border border-gray-200  shadow-sm">
+            <h3 class="font-semibold text-gray-900 ">Weekly Log Entries</h3>
+            <p class="mt-2 text-gray-600 ">Add, edit, and submit weekly activity logs with
               attachments.
             </p>
           </div>
-          <div class="p-6 rounded-2xl border border-gray-200 dark:border-gray-800 shadow-sm">
-            <h3 class="font-semibold text-gray-900 dark:text-white">Supervisor Reviews</h3>
-            <p class="mt-2 text-gray-600 dark:text-gray-400">Supervisors can review and score submissions with comments.
+          <div class="p-6 rounded-2xl border border-gray-200  shadow-sm">
+            <h3 class="font-semibold text-gray-900 ">Supervisor Reviews</h3>
+            <p class="mt-2 text-gray-600 ">Supervisors can review and score submissions with comments.
             </p>
           </div>
-          <div class="p-6 rounded-2xl border border-gray-200 dark:border-gray-800 shadow-sm">
-            <h3 class="font-semibold text-gray-900 dark:text-white">Progress Dashboard</h3>
-            <p class="mt-2 text-gray-600 dark:text-gray-400">Track completion and deadlines with a clean dashboard.</p>
+          <div class="p-6 rounded-2xl border border-gray-200  shadow-sm">
+            <h3 class="font-semibold text-gray-900 ">Progress Dashboard</h3>
+            <p class="mt-2 text-gray-600 ">Track completion and deadlines with a clean dashboard.</p>
           </div>
         </div>
       </div>
@@ -258,7 +258,7 @@ html {
       </div>
       <div class="px-8">
         <div class="container-xl lg:container m-auto">
-          <div class="flex flex-col md:grid-cols-2 gap-4 p-4 rounded-lg">
+          <div class="flex flex-col mt-4 lg:mt-0 md:grid-cols-2 gap-4 p-0 md:p-4 rounded-lg">
             <card class="border-1 border-gray-300 rounded-lg p-3">
               <h2 class="text-2xl font-bold">Signup</h2>
               <p class="mt-2 mb-4">
@@ -343,22 +343,22 @@ html {
     </section>
 
     <!-- Contact -->
-    <section id="contact" class="py-16 bg-gray-50 dark:bg-gray-950">
+    <section id="contact" class="py-16 bg-gray-50 ">
       <div class="max-w-4xl mx-auto px-6">
-        <h2 class="text-3xl font-bold text-[#374151] dark:text-white text-center">Contact</h2>
-        <p class="text-gray-600 dark:text-gray-400 text-center mt-2">Have questions? Reach out to us.</p>
+        <h2 class="text-3xl font-bold text-[#374151]  text-center">Contact</h2>
+        <p class="text-gray-600  text-center mt-2">Have questions? Reach out to us.</p>
 
         <form @submit.prevent="submit" class="mt-8 grid gap-4 sm:grid-cols-2">
           <div class="sm:col-span-1">
-            <label for="name" class="block text-sm mb-1 text-gray-700 dark:text-gray-300">Name</label>
+            <label for="name" class="block text-sm mb-1 text-gray-700">Name</label>
             <input id="name" v-model="name" type="text" required class="w-full px-3 py-2 border rounded-lg">
           </div>
           <div class="sm:col-span-1">
-            <label for="email" class="block text-sm mb-1 text-gray-700 dark:text-gray-300">Email</label>
+            <label for="email" class="block text-sm mb-1 text-gray-700">Email</label>
             <input id="email" v-model="email" type="email" required class="w-full px-3 py-2 border rounded-lg">
           </div>
           <div class="sm:col-span-2">
-            <label for="message" class="block text-sm mb-1 text-gray-700 dark:text-gray-300">Message</label>
+            <label for="message" class="block text-sm mb-1 text-gray-700">Message</label>
             <textarea id="message" v-model="message" rows="4" required
               class="w-full px-3 py-2 border rounded-lg"></textarea>
           </div>

@@ -17,7 +17,7 @@
           <p class="text-gray-600">{{ user?.school_name }}</p>
         </div>
       </div>
-      <router-link to="/assign" class="bg-gradient-to-r from-blue-400 to-blue-600 h-10 rounded px-4 py-2 text-sm md:text-base text-white">Assign Students</router-link>
+      <router-link to="/assign" class="bg-gradient-to-r from-blue-400 to-blue-600 h-15 text-center lg:h-10 rounded px-2 md:px-4 py-2 text-sm md:text-base text-white">Assign Students</router-link>
     </div>
 
     <!-- Summary Cards with Icons -->

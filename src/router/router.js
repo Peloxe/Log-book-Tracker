@@ -1,14 +1,14 @@
 import { createRouter, createWebHistory } from "vue-router";
 import LandingPage from "@/pages/LandingPage.vue";
 import SignupPage from "@/pages/SignupPage.vue";
-import VerificationForm from "@/components/VerificationForm.vue";
+import VerificationForm from "@/components/Forms/VerificationForm.vue";
 import LoginPage from "@/pages/LoginPage.vue";
 import Assign from "@/pages/Assign.vue";
-import StudentProfileSetup from "@/pages/StudentProfileSetup.vue";
-import SupervisorProfileSetup from "@/pages/SupervisorProfileSetup.vue";
-import AdminProfileSetup from "@/pages/AdminProfilePage.vue";
-import Dashboard from "../views/StudentDashboard.vue";
-import SupervisorDashboard from "@/pages/SupervisorDashboard.vue";
+import StudentProfileSetup from "@/components/Forms/StudentProfileSetup.vue";
+import SupervisorProfileSetup from "@/components/Forms/SupervisorProfileSetup.vue";
+import AdminProfileSetup from "@/components/Forms/AdminProfileSetup.vue";
+import Dashboard from "../Dashboards/StudentDashboard.vue";
+import SupervisorDashboard from "@/Dashboards/SupervisorDashboard.vue";
 import AddLog from "../views/AddLog.vue";
 import Profile from "@/pages/Profile.vue";
 import { useAuthStore } from "@/stores/auth";
@@ -66,7 +66,7 @@ const routes = [
   {
     path: "/admin/dashboard",
     name: "AdminDashboard",
-    component: () => import("@/pages/AdminDashboard.vue"),
+    component: () => import("@/Dashboards/AdminDashboard.vue"),
     meta: { requiresAuth: true, role: "admin" },
   },
   {

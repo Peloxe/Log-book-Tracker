@@ -67,32 +67,32 @@ async function handleSignup() {
 </script>
 
 <template>
-  <div class="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
-    <div class="w-full max-w-md bg-white dark:bg-gray-800 rounded-2xl shadow p-6">
-      <h1 class="text-2xl font-bold text-center text-gray-900 dark:text-white">Create Account</h1>
+  <div class="min-h-screen flex items-center justify-center bg-gray-50 ">
+    <div class="w-full max-w-md bg-white rounded-2xl shadow p-6">
+      <h1 class="text-2xl font-bold text-center text-gray-900 ">Create Account</h1>
       <form @submit.prevent="handleSignup" class="mt-6 space-y-4">
         <div>
-          <label for="Full Name" class="block text-sm mb-1 text-gray-700 dark:text-gray-300">Full Name</label>
+          <label for="Full Name" class="block text-sm mb-1 text-gray-700 ">Full Name</label>
           <input v-model="full_name" type="text" placeholder="Full Name" class="w-full p-3 py-2 border rounded-lg" required />
         </div>
         <div>
-          <label for="Username" class="block text-sm mb-1 text-gray-700 dark:text-gray-300">Username</label>
+          <label for="Username" class="block text-sm mb-1 text-gray-700 ">Username</label>
           <input v-model="username" type="text" placeholder="Username" class="w-full p-3 py-2 border rounded-lg" required />
         </div>
         <div>
-          <label for="email" class="block text-sm mb-1 text-gray-700 dark:text-gray-300">Email</label>
+          <label for="email" class="block text-sm mb-1 text-gray-700 ">Email</label>
           <input id="email" v-model.trim="email" type="email" placeholder="Email" autocomplete="email"
             :aria-invalid="!!emailError" class="w-full px-3 py-2 border rounded-lg">
           <p v-if="emailError" class="text-xs text-red-600 mt-1">{{ emailError }}</p>
         </div>
         <div>
-          <label for="password" class="block text-sm mb-1 text-gray-700 dark:text-gray-300">Password</label>
+          <label for="password" class="block text-sm mb-1 text-gray-700 ">Password</label>
           <input id="password" v-model="password" type="password" autocomplete="new-password"
             :aria-invalid="!!passwordError" class="w-full px-3 py-2 border rounded-lg">
           <p v-if="passwordError" class="text-xs text-red-600 mt-1">{{ passwordError }}</p>
         </div>
         <div>
-          <label for="confirm" class="block text-sm mb-1 text-gray-700 dark:text-gray-300">Confirm Password</label>
+          <label for="confirm" class="block text-sm mb-1 text-gray-700 ">Confirm Password</label>
           <input id="confirm" v-model="confirm" type="password" autocomplete="new-password"
             :aria-invalid="!!confirmError" class="w-full px-3 py-2 border rounded-lg">
           <p v-if="confirmError" class="text-xs text-red-600 mt-1">{{ confirmError }}</p>
@@ -103,7 +103,7 @@ async function handleSignup() {
         </button>
         <p v-if="formError" class="text-sm text-red-600 text-center">{{ formError }}</p>
       </form>
-      <p class="mt-4 text-sm text-center text-gray-600 dark:text-gray-400">
+      <p class="mt-4 text-sm text-center text-gray-600 ">
         Have an account? <router-link to="/login" class="text-indigo-600">Login</router-link>
       </p>
       <router-link to="/" class="text-sm text-slate-400 ">

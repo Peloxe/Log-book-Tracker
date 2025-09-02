@@ -13,9 +13,9 @@
         </div>
         <!-- Supervisor Info -->
         <div>
-          <h2 class="text-2xl font-bold">{{ user?.full_name }}</h2>
-          <p class="text-gray-600">Department: {{ user?.department }}</p>
+          <h2 class="text-2xl">Name: {{ user?.full_name }}</h2>
           <p class="text-gray-600">School: {{ user?.school_name }}</p>
+          <p class="text-gray-600">{{ user?.department }}</p>
           <div v-if="user?.role === 'student'" class="text-gray-700 mt-1">
             <p>
             Supervisor: <span class="font-medium">

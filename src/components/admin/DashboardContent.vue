@@ -7,7 +7,8 @@
         <img v-else src="https://www.gravatar.com/avatar/?d=mp&s=200" class="w-16 h-16 rounded-full object-cover" />
         <div>
           <h2 class="font-bold text-lg">{{ user?.full_name || 'Admin' }}</h2>
-          <p class="text-sm text-gray-600">{{ user?.profile.position }}</p>
+           <h2 class="text-sm text-slate-500">School: {{ user?.school_name || 'Unregistered' }}</h2>
+          <p class="text-sm text-slate-500">Position: {{ user?.profile.position }}</p>
         </div>
       </div>
       <button @click="showDeptForm = true" class="bg-green-600 text-white px-4 py-2 rounded">
@@ -28,7 +29,7 @@
     <!-- Create Department Modal -->
     <div v-if="showDeptForm" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
       <div class="bg-white p-6 rounded shadow">
-        <h3 class="text-lg font-bold mb-4">Create Department</h3>
+        <h3 class="text-lg font-bold mb-4">Register Department</h3>
         <form @submit.prevent="createDepartment">
           <input v-model="deptName" placeholder="Department Name" class="border rounded px-3 py-2 w-full mb-3" />
           <button class="bg-blue-600 text-white px-4 py-2 rounded">Submit</button>

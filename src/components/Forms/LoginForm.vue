@@ -44,12 +44,12 @@ async function handleLogin() {
 
 
 <template>
-  <div class="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
-    <div class="w-full max-w-md bg-white dark:bg-gray-800 rounded-2xl shadow p-6">
-      <h1 class="text-2xl font-bold text-center text-gray-900 dark:text-white">Login</h1>
+  <div class="min-h-screen flex items-center justify-center bg-gray-50 ">
+    <div class="w-full max-w-md bg-white  rounded-2xl shadow p-6">
+      <h1 class="text-2xl font-bold text-center text-gray-900">Login</h1>
       <form @submit.prevent="handleLogin" class="mt-6 space-y-4">
         <div>
-          <label for="email" class="block text-sm mb-1 text-gray-700 dark:text-gray-300">Email</label>
+          <label for="email" class="block text-sm mb-1 text-gray-700 ">Email</label>
           <input
             id="email"
             v-model.trim="email"
@@ -62,7 +62,7 @@ async function handleLogin() {
         </div>
 
         <div>
-          <label for="password" class="block text-sm mb-1 text-gray-700 dark:text-gray-300">Password</label>
+          <label for="password" class="block text-sm mb-1 text-gray-700 ">Password</label>
           <input
             id="password"
             v-model="password"
@@ -85,7 +85,7 @@ async function handleLogin() {
         <p v-if="formError" class="text-sm text-red-600 text-center">{{ formError }}</p>
       </form>
 
-      <p class="mt-4 text-sm text-center text-gray-600 dark:text-gray-400">
+      <p class="mt-4 text-sm text-center text-gray-600 ">
         No account? <router-link to="/signup/student" class="text-indigo-600">Register</router-link>
       </p>
       <router-link to="/" class="text-sm text-slate-400 ">

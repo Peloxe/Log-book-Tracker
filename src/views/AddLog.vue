@@ -51,6 +51,8 @@ import { useLogbookStore } from "../stores/logbookStore";
 const route = useRoute();
 const router = useRouter();
 const store = useLogbookStore();
+console.log("Store methods:", store);
+
 
 const editId = route.query.editId ? Number(route.query.editId) : null;
 const isEdit = computed(() => !!editId);
