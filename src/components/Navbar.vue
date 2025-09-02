@@ -1,52 +1,104 @@
 <script setup>
-// import logo from '@/assets/logo.svg'
+import { ref, onMounted, onBeforeUnmount, computed } from "vue";
+import { useRoute, useRouter } from "vue-router"; // ✅ import useRouter
+import Checkbox from "./Checkbox.vue";
+import { useAuthStore } from "@/stores/auth";
+
+const isMenuVisible = ref(false);
+const menuRef = ref(null);
+const checkboxRef = ref(null);
+
+const auth = useAuthStore();
+const route = useRoute();
+const router = useRouter(); // ✅ initialize router
+
+const hiddenRoutes = ['/', '/signup/student', '/signup/admin', '/signup/supervisor', '/login', '/student-setup', '/supervisor-setup', '/admin-setup', '/verify'];
+const showNavbar = computed(() => !hiddenRoutes.includes(route.path));
+
+function closeMenu() {
+  isMenuVisible.value = false;
+  if (checkboxRef.value && checkboxRef.value.checked) {
+    checkboxRef.value.click();
+  }
+}
+
+// ✅ Corrected logout
+function handleLogout() {
+  closeMenu();         // close menu
+  auth.logout();       // clear tokens and user
+  router.push('/login'); // ✅ use router, not route
+}
+
+function setIsMenuVisible(value) {
+  isMenuVisible.value = value;
+}
+
+function handleClickOutside(event) {
+  if (isMenuVisible.value && menuRef.value && !menuRef.value.contains(event.target)) {
+    closeMenu();
+  }
+}
+
+onMounted(() => {
+  document.addEventListener("mousedown", handleClickOutside);
+});
+
+onBeforeUnmount(() => {
+  document.removeEventListener("mousedown", handleClickOutside);
+});
+
 </script>
 
 <template>
-    <nav class="bg-green-400 border-b border-green-500">
-      <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
-        <div class="flex h-20 items-center justify-between">
-          <div
-            class="flex flex-1 items-center justify-center md:items-stretch md:justify-start"
-          >
-            <!-- Logo -->
-            <a class="flex flex-shrink-0 items-center mr-4" href="">
-              <img class="h-10 w-auto" :src="logo" alt=" " />
-              <span class="hidden md:block text-white text-2xl font-bold ml-2"
-                >SIWES Logbook Tracker</span
-              >
-            </a>
-            <div class="md:ml-auto">
-              <div class="flex space-x-2">
-                <a
-                  href=""
-                  class="text-white bg-green-900 hover:bg-gray-900 hover:text-white rounded-md px-3 py-2"
-                  >Profile</a
-                >
-                <a
-                  href=""
-                  class="text-white hover:bg-green-900 hover:text-white rounded-md px-3 py-2"
-                  >My Dashboard</a
-                >
-                <a
-                  href=""
-                  class="text-white hover:bg-green-900 hover:text-white rounded-md px-3 py-2"
-                  >Search</a
-                >
-                <a
-                  href=""
-                  class="text-white hover:bg-green-900 hover:text-white rounded-md px-3 py-2"
-                  >Add Job</a
-                >
-                <a
-                  href=""
-                  class="text-white hover:bg-green-900 hover:text-white rounded-md px-3 py-2"
-                  >Login</a
-                >
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </nav>
+  <!-- only render navbar if showNavbar is true -->
+  <nav
+    v-if="showNavbar"
+    ref="menuRef"
+    class="flex px-4 py-2 justify-between border-b border-gray items-center sticky top-0 z-4 bg-blue-500"
+  >
+    <RouterLink to="/" class="font-bold flex flex-col items-center text-2xl text-white mt-1.5">
+      SIWES Tracker
+    </RouterLink>
+
+    <div
+      :class="[
+        'nav-links flex  px-2.5 py-2 rounded-l-xl text-gray-600 items-center gap-8',
+        isMenuVisible ? 'show' : ''
+      ]"
+    >
+      <RouterLink
+        to="/profile"
+        @click="closeMenu"
+        class="font-semibold px-4 py-2  text-black text-white lg:hidden"
+      >
+        Profile
+      </RouterLink>
+      <RouterLink
+        to="#"
+        @click.prevent="handleLogout"
+        class="font-semibold px-4 py-2 rounded-xl text-black bg-gradient-to-r from-red-400 to-red-600  text-white lg:hidden"
+      >
+        Logout
+      </RouterLink>
+    </div>
+
+    <div class="flex gap-2">
+      <RouterLink
+        to="/profile"
+        class="font-semibold px-4 py-2 text-black text-white hidden lg:block"
+      >
+        Profile
+      </RouterLink>
+      <a
+        href="#"
+        @click.prevent="handleLogout"
+        class="font-semibold px-4 py-2 rounded-lg bg-gradient-to-r from-red-400 to-red-600  text-white hidden lg:block"
+      >
+        Logout
+      </a>
+    </div>
+
+    <!-- Checkbox Component -->
+    <Checkbox :setIsMenuVisible="setIsMenuVisible" :checkboxRef="checkboxRef" />
+  </nav>
 </template>
