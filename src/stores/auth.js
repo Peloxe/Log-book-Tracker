@@ -60,7 +60,6 @@ export const useAuthStore = defineStore("auth", {
         "Authorization"
       ] = `Bearer ${this.accessToken}`;
 
-      console.log("📥 Fetching user with token:", this.accessToken);
       await this.fetchUser(true); // 🔥 trigger redirect after login
     },
 
